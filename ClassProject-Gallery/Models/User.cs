@@ -18,11 +18,10 @@ namespace ClassProject_Gallery.Models
         public string Email { get; set; }
         public string? ProfileImage { get; set; }
 
-        // Parent ref
-        public Order Order { get; set; }
 
         // Child ref
         public List<Artist>? Artist { get; set; }
+        public List<Order>? Order { get; set; }
 
     }
 }
