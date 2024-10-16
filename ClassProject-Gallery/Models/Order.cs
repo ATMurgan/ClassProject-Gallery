@@ -4,11 +4,11 @@ namespace ClassProject_Gallery.Models
 {
     public class Order
     {
-        public int OrderId { get; set; }
+        [Key]public int OrderId { get; set; }
         [Required]
         public string OrderDate { get; set; }
         [Required]
-        public decimal TotalPrice { get; set; }
+        public double TotalPrice { get; set; }
         [Required]
         public string Status { get; set; }
 
@@ -18,7 +18,7 @@ namespace ClassProject_Gallery.Models
         public int UserId { get; set; }
 
         // Parent ref
-        public User User { get; set; }
+        public User? User { get; set; }
 
         // Child ref
         public List<OrderItem>? OrderItem { get; set; }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassProject_Gallery.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241014013612_create")]
-    partial class create
+    [Migration("20241016185944_buildtables")]
+    partial class buildtables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -52,7 +52,7 @@ namespace ClassProject_Gallery.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Artist");
+                    b.ToTable("Artists");
                 });
 
             modelBuilder.Entity("ClassProject_Gallery.Models.Artwork", b =>
@@ -78,8 +78,8 @@ namespace ClassProject_Gallery.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -92,7 +92,7 @@ namespace ClassProject_Gallery.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Artwork");
+                    b.ToTable("Artworks");
                 });
 
             modelBuilder.Entity("ClassProject_Gallery.Models.Category", b =>
@@ -115,7 +115,7 @@ namespace ClassProject_Gallery.Data.Migrations
 
                     b.HasKey("CategoryId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("ClassProject_Gallery.Models.Order", b =>
@@ -134,8 +134,8 @@ namespace ClassProject_Gallery.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("TotalPrice")
+                        .HasColumnType("float");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -144,7 +144,7 @@ namespace ClassProject_Gallery.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ClassProject_Gallery.Models.OrderItem", b =>
@@ -161,8 +161,8 @@ namespace ClassProject_Gallery.Data.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -173,7 +173,7 @@ namespace ClassProject_Gallery.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("ClassProject_Gallery.Models.User", b =>
@@ -204,7 +204,7 @@ namespace ClassProject_Gallery.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("User");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

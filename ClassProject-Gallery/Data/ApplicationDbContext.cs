@@ -13,12 +13,14 @@ namespace ClassProject_Gallery.Data
         //public DbSet<ClassProject_Gallery.Models.Artwork> Artwork { get; set; } = default!;
         //public DbSet<ClassProject_Gallery.Models.Category> Category { get; set; } = default!;
         //public DbSet<ClassProject_Gallery.Models.OrderItem> OrderItem { get; set; } = default!;
-        public DbSet<Artist> Artist { get; set; }
-        public DbSet<Artwork> Artwork { get; set; }
-        public DbSet<Category> Category { get; set; }
-        public DbSet<Order> Order { get; set; }
-        public DbSet<OrderItem> OrderItem { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<Artist> Artists { get; set; }
+        public DbSet<Artwork> Artworks { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<User> Users { get; set; }
+
+
 
     }
 }

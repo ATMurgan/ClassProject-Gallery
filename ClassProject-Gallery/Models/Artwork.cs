@@ -14,7 +14,7 @@ namespace ClassProject_Gallery.Models
         public string Description { get; set; }
         [Required]
         [DisplayFormat(DataFormatString ="{0:C}")]
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         [Required]
         public string ImageUrl { get; set; }
 
@@ -25,8 +25,8 @@ namespace ClassProject_Gallery.Models
         public int CategoryId { get; set; }
 
         // Parent ref
-        public Artist Artist { get; set; }
-        public Category Category { get; set; }
+        public Artist? Artist { get; set; }
+        public Category? Category { get; set; }
 
         // Child ref
         public List<OrderItem>? OrderItem { get; set; }

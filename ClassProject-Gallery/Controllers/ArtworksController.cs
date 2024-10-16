@@ -22,7 +22,7 @@ namespace ClassProject_Gallery.Controllers
         // GET: Artworks
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Artwork.Include(a => a.Artist).Include(a => a.Category);
+            var applicationDbContext = _context.Artworks.Include(a => a.Artist).Include(a => a.Category);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -34,7 +34,7 @@ namespace ClassProject_Gallery.Controllers
                 return NotFound();
             }
 
-            var artwork = await _context.Artwork
+            var artwork = await _context.Artworks
                 .Include(a => a.Artist)
                 .Include(a => a.Category)
                 .FirstOrDefaultAsync(m => m.ArtworkId == id);
@@ -49,8 +49,8 @@ namespace ClassProject_Gallery.Controllers
         // GET: Artworks/Create
         public IActionResult Create()
         {
-            ViewData["ArtistId"] = new SelectList(_context.Set<Artist>(), "ArtistId", "Autobiography");
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "Description");
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Autobiography");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Description");
             return View();
         }
 
@@ -67,8 +67,8 @@ namespace ClassProject_Gallery.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Set<Artist>(), "ArtistId", "Autobiography", artwork.ArtistId);
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "Description", artwork.CategoryId);
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Autobiography", artwork.ArtistId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Description", artwork.CategoryId);
             return View(artwork);
         }
 
@@ -80,13 +80,13 @@ namespace ClassProject_Gallery.Controllers
                 return NotFound();
             }
 
-            var artwork = await _context.Artwork.FindAsync(id);
+            var artwork = await _context.Artworks.FindAsync(id);
             if (artwork == null)
             {
                 return NotFound();
             }
-            ViewData["ArtistId"] = new SelectList(_context.Set<Artist>(), "ArtistId", "Autobiography", artwork.ArtistId);
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "Description", artwork.CategoryId);
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Autobiography", artwork.ArtistId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Description", artwork.CategoryId);
             return View(artwork);
         }
 
@@ -122,8 +122,8 @@ namespace ClassProject_Gallery.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtistId"] = new SelectList(_context.Set<Artist>(), "ArtistId", "Autobiography", artwork.ArtistId);
-            ViewData["CategoryId"] = new SelectList(_context.Set<Category>(), "CategoryId", "Description", artwork.CategoryId);
+            ViewData["ArtistId"] = new SelectList(_context.Artists, "ArtistId", "Autobiography", artwork.ArtistId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "CategoryId", "Description", artwork.CategoryId);
             return View(artwork);
         }
 
@@ -135,7 +135,7 @@ namespace ClassProject_Gallery.Controllers
                 return NotFound();
             }
 
-            var artwork = await _context.Artwork
+            var artwork = await _context.Artworks
                 .Include(a => a.Artist)
                 .Include(a => a.Category)
                 .FirstOrDefaultAsync(m => m.ArtworkId == id);
@@ -152,10 +152,10 @@ namespace ClassProject_Gallery.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var artwork = await _context.Artwork.FindAsync(id);
+            var artwork = await _context.Artworks.FindAsync(id);
             if (artwork != null)
             {
-                _context.Artwork.Remove(artwork);
+                _context.Artworks.Remove(artwork);
             }
 
             await _context.SaveChangesAsync();
@@ -164,7 +164,7 @@ namespace ClassProject_Gallery.Controllers
 
         private bool ArtworkExists(int id)
         {
-            return _context.Artwork.Any(e => e.ArtworkId == id);
+            return _context.Artworks.Any(e => e.ArtworkId == id);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace ClassProject_Gallery.Models
         public int UserId { get; set; }
 
         // Parent ref
-        public User User { get; set; }
+        public User? User { get; set; }
 
         // Child ref
         public List<Artwork>? Artwork { get; set; }

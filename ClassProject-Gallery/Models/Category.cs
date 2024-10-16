@@ -13,7 +13,7 @@ namespace ClassProject_Gallery.Models
         public string Description { get; set; }
 
         // Child ref
-        public List<Artwork> Artwork { get; set; }
+        public List<Artwork>? Artwork { get; set; }
 
     }
 }

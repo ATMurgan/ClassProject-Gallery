@@ -10,23 +10,23 @@ using ClassProject_Gallery.Models;
 
 namespace ClassProject_Gallery.Controllers
 {
-    public class AuctionsController : Controller
+    public class ArtistsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AuctionsController(ApplicationDbContext context)
+        public ArtistsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Auctions
+        // GET: Artists
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.OrderItem.Include(o => o.Artwork).Include(o => o.Order);
+            var applicationDbContext = _context.Artists.Include(a => a.User);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Auctions/Details/5
+        // GET: Artists/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,45 +34,42 @@ namespace ClassProject_Gallery.Controllers
                 return NotFound();
             }
 
-            var orderItem = await _context.OrderItem
-                .Include(o => o.Artwork)
-                .Include(o => o.Order)
-                .FirstOrDefaultAsync(m => m.OrderItemId == id);
-            if (orderItem == null)
+            var artist = await _context.Artists
+                .Include(a => a.User)
+                .FirstOrDefaultAsync(m => m.ArtistId == id);
+            if (artist == null)
             {
                 return NotFound();
             }
 
-            return View(orderItem);
+            return View(artist);
         }
 
-        // GET: Auctions/Create
+        // GET: Artists/Create
         public IActionResult Create()
         {
-            ViewData["ArtworkId"] = new SelectList(_context.Artwork, "ArtworkId", "Description");
-            ViewData["OrderId"] = new SelectList(_context.Set<Order>(), "OrderId", "OrderDate");
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Email");
             return View();
         }
 
-        // POST: Auctions/Create
+        // POST: Artists/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderItemId,Quantity,Price,OrderId,ArtworkId")] OrderItem orderItem)
+        public async Task<IActionResult> Create([Bind("ArtistId,Autobiography,Website,Socials,UserId")] Artist artist)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(orderItem);
+                _context.Add(artist);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtworkId"] = new SelectList(_context.Artwork, "ArtworkId", "Description", orderItem.ArtworkId);
-            ViewData["OrderId"] = new SelectList(_context.Set<Order>(), "OrderId", "OrderDate", orderItem.OrderId);
-            return View(orderItem);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Email", artist.UserId);
+            return View(artist);
         }
 
-        // GET: Auctions/Edit/5
+        // GET: Artists/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,24 +77,23 @@ namespace ClassProject_Gallery.Controllers
                 return NotFound();
             }
 
-            var orderItem = await _context.OrderItem.FindAsync(id);
-            if (orderItem == null)
+            var artist = await _context.Artists.FindAsync(id);
+            if (artist == null)
             {
                 return NotFound();
             }
-            ViewData["ArtworkId"] = new SelectList(_context.Artwork, "ArtworkId", "Description", orderItem.ArtworkId);
-            ViewData["OrderId"] = new SelectList(_context.Set<Order>(), "OrderId", "OrderDate", orderItem.OrderId);
-            return View(orderItem);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Email", artist.UserId);
+            return View(artist);
         }
 
-        // POST: Auctions/Edit/5
+        // POST: Artists/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderItemId,Quantity,Price,OrderId,ArtworkId")] OrderItem orderItem)
+        public async Task<IActionResult> Edit(int id, [Bind("ArtistId,Autobiography,Website,Socials,UserId")] Artist artist)
         {
-            if (id != orderItem.OrderItemId)
+            if (id != artist.ArtistId)
             {
                 return NotFound();
             }
@@ -106,12 +102,12 @@ namespace ClassProject_Gallery.Controllers
             {
                 try
                 {
-                    _context.Update(orderItem);
+                    _context.Update(artist);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderItemExists(orderItem.OrderItemId))
+                    if (!ArtistExists(artist.ArtistId))
                     {
                         return NotFound();
                     }
@@ -122,12 +118,11 @@ namespace ClassProject_Gallery.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ArtworkId"] = new SelectList(_context.Artwork, "ArtworkId", "Description", orderItem.ArtworkId);
-            ViewData["OrderId"] = new SelectList(_context.Set<Order>(), "OrderId", "OrderDate", orderItem.OrderId);
-            return View(orderItem);
+            ViewData["UserId"] = new SelectList(_context.Users, "UserId", "Email", artist.UserId);
+            return View(artist);
         }
 
-        // GET: Auctions/Delete/5
+        // GET: Artists/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,36 +130,35 @@ namespace ClassProject_Gallery.Controllers
                 return NotFound();
             }
 
-            var orderItem = await _context.OrderItem
-                .Include(o => o.Artwork)
-                .Include(o => o.Order)
-                .FirstOrDefaultAsync(m => m.OrderItemId == id);
-            if (orderItem == null)
+            var artist = await _context.Artists
+                .Include(a => a.User)
+                .FirstOrDefaultAsync(m => m.ArtistId == id);
+            if (artist == null)
             {
                 return NotFound();
             }
 
-            return View(orderItem);
+            return View(artist);
         }
 
-        // POST: Auctions/Delete/5
+        // POST: Artists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var orderItem = await _context.OrderItem.FindAsync(id);
-            if (orderItem != null)
+            var artist = await _context.Artists.FindAsync(id);
+            if (artist != null)
             {
-                _context.OrderItem.Remove(orderItem);
+                _context.Artists.Remove(artist);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderItemExists(int id)
+        private bool ArtistExists(int id)
         {
-            return _context.OrderItem.Any(e => e.OrderItemId == id);
+            return _context.Artists.Any(e => e.ArtistId == id);
         }
     }
 }
