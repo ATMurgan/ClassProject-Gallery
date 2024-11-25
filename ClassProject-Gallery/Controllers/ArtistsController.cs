@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClassProject_Gallery.Data;
 using ClassProject_Gallery.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClassProject_Gallery.Controllers
 {
@@ -45,6 +46,7 @@ namespace ClassProject_Gallery.Controllers
             return View(artist);
         }
 
+        [Authorize]
         // GET: Artists/Create
         public IActionResult Create()
         {

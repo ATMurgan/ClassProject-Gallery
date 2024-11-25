@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClassProject_Gallery.Data;
 using ClassProject_Gallery.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ClassProject_Gallery.Controllers
 {
+    [Authorize]
+    //[Authorize(Roles = "Administrator")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
