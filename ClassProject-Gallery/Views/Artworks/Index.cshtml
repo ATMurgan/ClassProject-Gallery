@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<ClassProject_Gallery.Models.Artwork>
 
+
 @{
-    ViewData["Title"] = "Artwork For Display";
+    ViewData["Title"] = User.Identity.IsAuthenticated ? "Artwork For Sale" : "Artwork For Display";
 }
 
-<h1>Artwork For Display</h1>
+<h1>@ViewData["Title"]</h1>
 
 @if (User.Identity.IsAuthenticated)
 {
