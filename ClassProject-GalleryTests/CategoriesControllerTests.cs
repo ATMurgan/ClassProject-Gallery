@@ -89,6 +89,69 @@ namespace ClassProject_GalleryTests
         }
 
 
+        [TestMethod]
+        public void CreatePostValidModelRedirectsToIndex()
+        {
+            // arrange
+            var newCategory = new Category { CategoryId = 2, Name = "Fish", Description = "xxx" };
+
+            // act
+            var result = controller.Create(newCategory).Result;
+
+            // assert
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            var redirectResult = (RedirectToActionResult)result;
+            Assert.AreEqual("Index", redirectResult.ActionName); 
+        }
+
+        [TestMethod]
+        public void CreatePostInvalidModelReturnsSameView()
+        {
+            // arrange
+            var newCategory = new Category { CategoryId = 0, Name = "", Description = "" };
+
+            controller.ModelState.AddModelError("Name, Description", "Name and Description both required ");
+
+            // act
+            var result = controller.Create(newCategory).Result;
+
+            // assert
+            Assert.IsInstanceOfType(result, typeof(ViewResult)); 
+            var viewResult = (ViewResult)result;
+            Assert.AreEqual(newCategory, viewResult.Model); 
+        }
+
+        [TestMethod]
+        public void CreatePostValidModelUpdatesDatabase()
+        {
+            // arrange
+            var newCategory = new Category { CategoryId = 3, Name = "New Fish", Description = "xx" };
+
+            // act
+            controller.Create(newCategory).Wait(); 
+
+            // assert
+            var categoryDb = _context.Categories.FirstOrDefault(c => c.CategoryId == newCategory.CategoryId);
+            Assert.IsNotNull(categoryDb); 
+            Assert.AreEqual("New Fish", categoryDb.Name); 
+        }
+
+        [TestMethod]
+        public void CreatePostInvalidModelDoesNotUpdateDatabase()
+        {
+            // arrange
+            var newCategory = new Category { CategoryId = 0, Name = "", Description = "" };
+
+            controller.ModelState.AddModelError("Name, Description", "Name and Description both required ");
+
+            // act
+            controller.Create(newCategory).Wait(); 
+
+            // assert
+            var categoryInDb = _context.Categories.FirstOrDefault(c => c.CategoryId == newCategory.CategoryId);
+            Assert.IsNull(categoryInDb); 
+        }
+
 
 
     }

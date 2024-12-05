@@ -65,7 +65,7 @@ namespace ClassProject_Gallery.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(category);
+            return View("Details", category);
         }
 
         // GET: Categories/Edit/5
