@@ -39,5 +39,57 @@ namespace ClassProject_GalleryTests
 
             Assert.AreEqual("Index", result.ViewName);
         }
+
+        [TestMethod]
+        public void IndexReturnsCategories()
+        {
+            var result = (ViewResult)controller.Index().Result;
+            var dataModel = (List<Category>)result.Model;
+
+            // assert.  
+            CollectionAssert.AreEqual(_context.Categories.ToList(), dataModel);
+        }
+
+        [TestMethod]
+        public void DetailsNoIdReturns404()
+        {
+            // act
+            var result = (ViewResult)controller.Details(null).Result;
+
+            // assert
+            Assert.AreEqual("404", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DetailsInvalidIdReturns404()
+        {
+            // act
+            var result = (ViewResult)controller.Details(-1).Result;
+
+            // assert
+            Assert.AreEqual("404", result.ViewName);
+        }
+
+        [TestMethod]
+        public void DetailsValidIdReturnsView()
+        {
+            // act
+            var result = (ViewResult)controller.Details(15).Result;
+
+            // assert
+            Assert.AreEqual("Details", result.ViewName);
+        }
+
+        [TestMethod]
+        public void CreateReturnsCreate()
+        {
+            var result = (ViewResult)controller.Create();
+
+            Assert.AreEqual("Create", result.ViewName);
+        }
+
+
+
+
     }
 }

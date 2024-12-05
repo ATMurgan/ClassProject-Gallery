@@ -33,23 +33,23 @@ namespace ClassProject_Gallery.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("404");
             }
 
             var category = await _context.Categories
                 .FirstOrDefaultAsync(m => m.CategoryId == id);
             if (category == null)
             {
-                return NotFound();
+                return View("404");
             }
 
-            return View(category);
+            return View("Details", category);
         }
 
         // GET: Categories/Create
         public IActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: Categories/Create
